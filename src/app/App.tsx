@@ -1,21 +1,22 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
+import { Container } from '@mui/material'
 import SimulatorPage from 'pages/Simulator'
 import AboutPage from 'pages/About'
-import Header from 'components/header'
-import Nav from 'components/nav'
+import Header from 'components/Header'
+import Nav from 'components/Nav'
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Header />
       <Nav />
-      <main className="App-main">
+      <Container component="main" className="app-main">
         <Routes>
           <Route path="/" element={<SimulatorPage />} />
           <Route path="/about" element={<AboutPage />} />
         </Routes>
-      </main>
+      </Container>
     </div>
   )
 }
