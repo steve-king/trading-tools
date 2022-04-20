@@ -4,11 +4,13 @@ import './index.css'
 import App from './app'
 import reportWebVitals from './reportWebVitals'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { CssBaseline } from '@mui/material'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <Router>
+      <CssBaseline />
       <App />
     </Router>
   </React.StrictMode>

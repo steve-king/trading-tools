@@ -8,10 +8,8 @@ import Nav from 'components/nav'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <Header />
-        <Nav />
-      </header>
+      <Header />
+      <Nav />
       <main className="App-main">
         <Routes>
           <Route path="/" element={<SimulatorPage />} />

@@ -1,5 +1,15 @@
+import { AppBar, Toolbar, Typography } from '@mui/material'
+
 const Header = () => {
-  return <h1>Trading Tools</h1>
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Trading Tools
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  )
 }
 
 export default Header
