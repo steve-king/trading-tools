@@ -7,7 +7,7 @@ import { Grid } from '@mui/material'
 const SimulatorPage = () => {
   return (
     <>
-      <h2>Simulator</h2>
+      <h2>Equity Curve Simulator</h2>
       <Grid container spacing={4}>
         <Grid item md={3}>
           <Form />
