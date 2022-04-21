@@ -1,32 +1,31 @@
 import { useState } from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { Button, TextField } from '@mui/material'
+import { SimulatorForm, SimulatorState, submitForm } from 'store/simulatorSlice'
 
 const Form = () => {
-  const [formData, setFormData] = useState({
-    winRate: 50,
-    riskPerTrade: 1,
-    rewardRiskRatio: 2,
-    numTrades: 100,
-    numPasses: 5,
-    startingBalance: 1000,
+  const dispatch = useDispatch()
+
+  const initialData = useSelector((state: { simulator: SimulatorState }) => {
+    return state.simulator.formData
   })
+  const [formData, setFormData] = useState<SimulatorForm>(initialData)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = e.target
     setFormData((prevData) => ({
       ...prevData,
-      [e.target.name]: e.target.value,
+      [name]: type === 'number' ? Number(value) : value,
     }))
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('SUBMIT')
-    console.log(formData)
-
-    // TODO
-    // Call redux action with formData
+    // TODO: call a middleware which will generate our randomised win/loss sequences
+    dispatch(submitForm(formData))
   }
+
+  console.log(formData)
 
   return (
     <form onSubmit={handleSubmit}>
