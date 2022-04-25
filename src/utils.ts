@@ -1,12 +1,14 @@
 /**
  * Randomise the order of elements in an array
- * @param array - the array to be randomised
+ * @param oldArray - the array to be randomised
  * @returns - randomised copy of the array
  * --
  * Taken from:
  * https://stackoverflow.com/a/2450976
  */
-export function shuffle(array: any[]): any[] {
+export function shuffle(oldArray: any[]): any[] {
+  const array = [...oldArray]
+
   let currentIndex = array.length
   let randomIndex: number
 
@@ -25,17 +27,17 @@ export function shuffle(array: any[]): any[] {
 
 /**
  * Generate a randomised sequence of wins and losses (true/false)
- * @param winRate - probability of a win (number between 0 and 1)
+ * @param winPercent - probability of a win (number between 0 and 100)
  * @param length - length of the sequence (number of trades)
- * @returns An array of boolean values
+ * @returns Array of win/loss strings
  */
-export function generateWinLossSequence(winRate: number, length: number): boolean[] {
+export function randomisedWinLossSequence(winPercent: number, length: number): string[] {
   let sequence = []
 
   for (let i = 0; i < length; i++) {
-    let win = i < winRate * length
-    sequence.push(win ? true : false)
+    let win = i < (winPercent / 100) * length
+    sequence.push(win ? 'win' : 'loss')
   }
 
-  return sequence
+  return shuffle(sequence)
 }

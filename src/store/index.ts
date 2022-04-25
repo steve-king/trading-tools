@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
-import simulator from './simulatorSlice'
+import equityCurve from './equityCurveSlice'
 
 const store = configureStore({
   reducer: {
-    simulator,
+    equityCurve,
   },
 })
 

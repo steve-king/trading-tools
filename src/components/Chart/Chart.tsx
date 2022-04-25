@@ -1,4 +1,10 @@
+import { useSelector } from 'react-redux'
+import { selectEquityCurves } from 'store/equityCurveSlice'
+
 const Chart = () => {
+  const curves = useSelector(selectEquityCurves)
+  console.log(curves)
+
   return (
     <>
       <h3>Charts</h3>

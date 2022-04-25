@@ -1,16 +1,15 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, TextField } from '@mui/material'
-import { SimulatorForm, SimulatorState, submitForm } from 'store/simulatorSlice'
+import { EquityCurveState, setParams } from 'store/equityCurveSlice'
+import { randomisedWinLossSequence } from 'utils'
 
 const Form = () => {
-  const dispatch = useDispatch()
-
-  const initialData = useSelector((state: { simulator: SimulatorState }) => {
-    return state.simulator.formData
-  })
-  const [formData, setFormData] = useState<SimulatorForm>(initialData)
-
+  // Internal form state
+  const initialFormState = useSelector(
+    (state: { equityCurve: EquityCurveState }) => state.equityCurve
+  )
+  const [formData, setFormData] = useState(initialFormState)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target
     setFormData((prevData) => ({
@@ -19,21 +18,28 @@ const Form = () => {
     }))
   }
 
+  // Submit + dispatch data
+  const dispatch = useDispatch()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: call a middleware which will generate our randomised win/loss sequences
-    dispatch(submitForm(formData))
+    dispatch(
+      setParams({
+        ...formData,
+        sequences: new Array(formData.numSequences).fill(null).map(() => {
+          const sequence = randomisedWinLossSequence(formData.winPercent, formData.itemsPerSequence)
+          return sequence
+        }),
+      })
+    )
   }
-
-  console.log(formData)
 
   return (
     <form onSubmit={handleSubmit}>
       <TextField
         type="number"
-        name="winRate"
+        name="winPercent"
+        value={formData.winPercent}
         label="Win rate (%)"
-        value={formData.winRate}
         onChange={handleChange}
         variant="standard"
         margin="normal"
@@ -42,9 +48,9 @@ const Form = () => {
 
       <TextField
         type="number"
-        name="riskPerTrade"
+        name="riskPercent"
+        value={formData.riskPercent}
         label="Risk per trade (%)"
-        value={formData.riskPerTrade}
         onChange={handleChange}
         variant="standard"
         margin="normal"
@@ -53,9 +59,9 @@ const Form = () => {
 
       <TextField
         type="number"
-        name="rewardRiskRatio"
+        name="rewardRatio"
+        value={formData.rewardRatio}
         label="Reward ratio (n:1)"
-        value={formData.rewardRiskRatio}
         onChange={handleChange}
         variant="standard"
         margin="normal"
@@ -65,9 +71,9 @@ const Form = () => {
 
       <TextField
         type="number"
-        name="numTrades"
+        name="itemsPerSequence"
+        value={formData.itemsPerSequence}
         label="Number of trades"
-        value={formData.numTrades}
         onChange={handleChange}
         variant="standard"
         margin="normal"
@@ -76,9 +82,9 @@ const Form = () => {
 
       <TextField
         type="number"
-        name="numPasses"
+        name="numSequences"
+        value={formData.numSequences}
         label="Number of passes"
-        value={formData.numPasses}
         onChange={handleChange}
         variant="standard"
         margin="normal"
@@ -88,8 +94,8 @@ const Form = () => {
       <TextField
         type="number"
         name="startingBalance"
-        label="Starting balance ($)"
         value={formData.startingBalance}
+        label="Starting balance ($)"
         onChange={handleChange}
         variant="standard"
         margin="normal"
