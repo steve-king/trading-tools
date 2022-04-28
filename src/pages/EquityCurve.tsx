@@ -19,6 +19,7 @@ const SimulatorPage = () => {
         </Grid>
         <Grid item md={9}>
           <Chart data={chartData} />
+          <br />
           <Stats />
         </Grid>
       </Grid>

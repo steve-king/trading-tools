@@ -26,10 +26,10 @@ const equityCurveSlice = createSlice({
   name: 'equityCurve',
   initialState: {
     startingBalance: 1000,
-    winPercent: 55,
+    winPercent: 65,
     riskPercent: 1,
     rewardRatio: 2,
-    itemsPerSequence: 50,
+    itemsPerSequence: 100,
     numSequences: 5,
     sequences: [],
   },

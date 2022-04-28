@@ -47,9 +47,10 @@ export function randomisedWinLossSequence(winPercent: number, length: number): T
 /**
  * Generate a random rgba colour string with predetermined opacity
  * @param opacity
+ * @param max - Max value for the rgb parameters. Allows for more consistent output (avoid overly faint colours)
  * @returns
  */
-export function randomColour(opacity = 1) {
-  const random = () => Math.floor(Math.random() * 256)
+export function randomColour(opacity = 1, max = 256) {
+  const random = () => Math.floor(Math.random() * max)
   return `rgba(${random()}, ${random()}, ${random()}, ${opacity})`
 }

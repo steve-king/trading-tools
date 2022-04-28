@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, TextField } from '@mui/material'
+import { Button, TextField, Card, CardContent } from '@mui/material'
 import { EquityCurveState, setParams } from 'store/equityCurveSlice'
 import { randomisedWinLossSequence } from 'utils'
 
@@ -33,79 +33,85 @@ const Form = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextField
-        type="number"
-        name="winPercent"
-        value={formData.winPercent}
-        label="Win rate (%)"
-        onChange={handleChange}
-        variant="standard"
-        margin="normal"
-        fullWidth
-      />
+    <Card>
+      <CardContent>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            type="number"
+            name="startingBalance"
+            value={formData.startingBalance}
+            label="Starting balance ($)"
+            onChange={handleChange}
+            variant="standard"
+            margin="normal"
+            fullWidth
+          />
 
-      <TextField
-        type="number"
-        name="riskPercent"
-        value={formData.riskPercent}
-        label="Risk per trade (%)"
-        onChange={handleChange}
-        variant="standard"
-        margin="normal"
-        fullWidth
-      />
+          <TextField
+            type="number"
+            name="winPercent"
+            value={formData.winPercent}
+            label="Win rate (%)"
+            onChange={handleChange}
+            variant="standard"
+            margin="normal"
+            fullWidth
+          />
 
-      <TextField
-        type="number"
-        name="rewardRatio"
-        value={formData.rewardRatio}
-        label="Reward ratio (n:1)"
-        onChange={handleChange}
-        variant="standard"
-        margin="normal"
-        fullWidth
-        inputProps={{ step: 0.1 }}
-      />
+          <TextField
+            type="number"
+            name="riskPercent"
+            value={formData.riskPercent}
+            label="Risk per trade (%)"
+            onChange={handleChange}
+            variant="standard"
+            margin="normal"
+            fullWidth
+          />
 
-      <TextField
-        type="number"
-        name="itemsPerSequence"
-        value={formData.itemsPerSequence}
-        label="Number of trades"
-        onChange={handleChange}
-        variant="standard"
-        margin="normal"
-        fullWidth
-      />
+          <TextField
+            type="number"
+            name="rewardRatio"
+            value={formData.rewardRatio}
+            label="Reward ratio (n:1)"
+            onChange={handleChange}
+            variant="standard"
+            margin="normal"
+            fullWidth
+            inputProps={{ step: 0.1 }}
+          />
 
-      <TextField
-        type="number"
-        name="numSequences"
-        value={formData.numSequences}
-        label="Number of passes"
-        onChange={handleChange}
-        variant="standard"
-        margin="normal"
-        fullWidth
-      />
+          <TextField
+            type="number"
+            name="itemsPerSequence"
+            value={formData.itemsPerSequence}
+            label="Number of trades"
+            onChange={handleChange}
+            variant="standard"
+            margin="normal"
+            fullWidth
+          />
 
-      <TextField
-        type="number"
-        name="startingBalance"
-        value={formData.startingBalance}
-        label="Starting balance ($)"
-        onChange={handleChange}
-        variant="standard"
-        margin="normal"
-        fullWidth
-      />
-      <br />
-      <br />
-      <Button type="submit" variant="contained" fullWidth>
-        Run Simulation
-      </Button>
-    </form>
+          <TextField
+            type="number"
+            name="numSequences"
+            value={formData.numSequences}
+            label="Number of passes"
+            onChange={handleChange}
+            variant="standard"
+            margin="normal"
+            fullWidth
+            inputProps={{ max: 20 }}
+          />
+
+          <br />
+          <br />
+          <Button type="submit" variant="contained" fullWidth>
+            Run Simulation
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   )
 }
 
