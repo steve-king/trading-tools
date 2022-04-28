@@ -4,7 +4,12 @@ import Stats from 'components/Stats'
 
 import { Grid } from '@mui/material'
 
+import { useSelector } from 'react-redux'
+import { selectChartData } from 'store/equityCurveSlice'
+
 const SimulatorPage = () => {
+  const chartData = useSelector(selectChartData)
+
   return (
     <>
       <h2>Equity Curve Simulator</h2>
@@ -13,7 +18,7 @@ const SimulatorPage = () => {
           <Form />
         </Grid>
         <Grid item md={9}>
-          <Chart />
+          <Chart data={chartData} />
           <Stats />
         </Grid>
       </Grid>

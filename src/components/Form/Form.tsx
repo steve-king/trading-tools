@@ -6,10 +6,9 @@ import { randomisedWinLossSequence } from 'utils'
 
 const Form = () => {
   // Internal form state
-  const initialFormState = useSelector(
-    (state: { equityCurve: EquityCurveState }) => state.equityCurve
-  )
-  const [formData, setFormData] = useState(initialFormState)
+  const initialState = useSelector((state: { equityCurve: EquityCurveState }) => state.equityCurve)
+  const [formData, setFormData] = useState(initialState)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.target
     setFormData((prevData) => ({

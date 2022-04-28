@@ -1,3 +1,5 @@
+import { TradeResult } from 'store/equityCurveSlice'
+
 /**
  * Randomise the order of elements in an array
  * @param oldArray - the array to be randomised
@@ -31,12 +33,12 @@ export function shuffle(oldArray: any[]): any[] {
  * @param length - length of the sequence (number of trades)
  * @returns Array of win/loss strings
  */
-export function randomisedWinLossSequence(winPercent: number, length: number): string[] {
+export function randomisedWinLossSequence(winPercent: number, length: number): TradeResult[] {
   let sequence = []
 
   for (let i = 0; i < length; i++) {
     let win = i < (winPercent / 100) * length
-    sequence.push(win ? 'win' : 'loss')
+    sequence.push(win ? TradeResult.Win : TradeResult.Loss)
   }
 
   return shuffle(sequence)

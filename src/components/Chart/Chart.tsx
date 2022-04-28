@@ -1,22 +1,32 @@
-import { useSelector } from 'react-redux'
-import { selectEquityCurves } from 'store/equityCurveSlice'
+import { useEffect, useRef } from 'react'
+import ChartJS from 'chart.js/auto'
 
-const Chart = () => {
-  const curves = useSelector(selectEquityCurves)
-  console.log(curves)
+const Chart = (props: { data: number[][] }) => {
+  const chartRef = useRef<HTMLCanvasElement>(null)
+  const { data } = props
 
-  return (
-    <>
-      <h3>Charts</h3>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-      </p>
-    </>
-  )
+  useEffect(() => {
+    console.log('render', data)
+    let chart: ChartJS
+    const ctx = chartRef.current?.getContext('2d')
+
+    if (ctx && data.length) {
+      chart = new ChartJS(ctx, {
+        type: 'line',
+        data: {
+          datasets: data.map((dataset, i) => ({
+            label: `Dataset ${i + 1}`,
+            data: dataset,
+          })),
+          labels: data[0].map((el, i) => i),
+        },
+      })
+    }
+
+    return () => chart && chart.destroy()
+  }, [data])
+
+  return <canvas ref={chartRef} />
 }
 
 export default Chart
