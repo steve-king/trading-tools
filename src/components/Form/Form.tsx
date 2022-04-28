@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, TextField, Card, CardContent } from '@mui/material'
 import { EquityCurveState, setParams } from 'store/equityCurveSlice'
-import { randomisedWinLossSequence } from 'utils'
+import { winLossSequence } from 'utils/utils'
 
 const Form = () => {
   // Internal form state
@@ -25,7 +25,7 @@ const Form = () => {
       setParams({
         ...formData,
         sequences: new Array(formData.numSequences).fill(null).map(() => {
-          const sequence = randomisedWinLossSequence(formData.winPercent, formData.itemsPerSequence)
+          const sequence = winLossSequence(formData.winProbability, formData.itemsPerSequence)
           return sequence
         }),
       })
@@ -49,8 +49,8 @@ const Form = () => {
 
           <TextField
             type="number"
-            name="winPercent"
-            value={formData.winPercent}
+            name="winProbability"
+            value={formData.winProbability}
             label="Win rate (%)"
             onChange={handleChange}
             variant="standard"

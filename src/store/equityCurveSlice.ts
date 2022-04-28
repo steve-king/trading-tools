@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export interface EquityCurveState {
   startingBalance: number
-  winPercent: number
+  winProbability: number
   riskPercent: number
   rewardRatio: number
   itemsPerSequence: number
@@ -21,12 +21,28 @@ export interface EquityCurveItem {
   balance: number
 }
 
+export interface MultiFormatStatItem {
+  rMultiples: number
+  dollars: number
+  percent: number
+}
+
+export interface EquityCurveStats {
+  maxConsecutiveLosses: number
+  maxConsecutiveWins: number
+  avgExpectancy: MultiFormatStatItem
+  maxDrawdown: MultiFormatStatItem
+  avgReturn: MultiFormatStatItem
+  maxReturn: MultiFormatStatItem
+  minReturn: MultiFormatStatItem
+}
+
 // Reducer
 const equityCurveSlice = createSlice({
   name: 'equityCurve',
   initialState: {
     startingBalance: 1000,
-    winPercent: 65,
+    winProbability: 65,
     riskPercent: 1,
     rewardRatio: 2,
     itemsPerSequence: 100,
@@ -34,30 +50,13 @@ const equityCurveSlice = createSlice({
     sequences: [],
   },
   reducers: {
-    setParams: (
-      state,
-      {
-        payload: {
-          startingBalance,
-          winPercent,
-          riskPercent,
-          rewardRatio,
-          itemsPerSequence,
-          numSequences,
-          sequences,
-        },
+    setParams: (state, { payload }) => {
+      const newState = {
+        ...state,
+        ...payload,
       }
-    ) => {
-      state.startingBalance = startingBalance
-      state.winPercent = winPercent
-      state.riskPercent = riskPercent
-      state.rewardRatio = rewardRatio
-      state.itemsPerSequence = itemsPerSequence
-      state.numSequences = numSequences
-      state.sequences = sequences
 
-      // Can we do something like this instead? TypeScript doesn't like it...
-      // Object.keys(action.payload).forEach((key) => (state[key] = action.payload[key]))
+      return newState
     },
   },
 })
@@ -92,8 +91,18 @@ export const selectChartData = (state: { equityCurve: EquityCurveState }) => {
   return selectEquityCurves(state).map((series) => series.map((item) => item.balance))
 }
 
-export const selectStats = (state: { equityCurve: EquityCurveState }) => {
-  //selectEquityCurves(state)
+export const selectStats = (state: { equityCurve: EquityCurveState }): EquityCurveStats => {
+  const multiFormatStatItem = { rMultiples: 8.5, dollars: 542, percent: 54 }
+
+  return {
+    maxConsecutiveLosses: 5,
+    maxConsecutiveWins: 10,
+    avgExpectancy: multiFormatStatItem,
+    maxDrawdown: multiFormatStatItem,
+    avgReturn: multiFormatStatItem,
+    maxReturn: multiFormatStatItem,
+    minReturn: multiFormatStatItem,
+  }
 }
 
 // Default reducer export

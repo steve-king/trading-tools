@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 import ChartJS from 'chart.js/auto'
-import { randomColour } from 'utils'
-
 import { Card, CardContent } from '@mui/material'
+import { randomColour } from 'utils/utils'
 
 const Chart = (props: { data: number[][] }) => {
   const chartRef = useRef<HTMLCanvasElement>(null)
@@ -38,6 +37,7 @@ const Chart = (props: { data: number[][] }) => {
       })
     }
 
+    // Clean up
     return () => chart && chart.destroy()
   }, [data, chartRef])
 
