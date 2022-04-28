@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import ChartJS from 'chart.js/auto'
+import { randomColour } from 'utils'
 
 const Chart = (props: { data: number[][] }) => {
   const chartRef = useRef<HTMLCanvasElement>(null)
@@ -13,9 +14,10 @@ const Chart = (props: { data: number[][] }) => {
     if (ctx && data.length) {
       chart = new ChartJS(ctx, {
         type: 'line',
+        options: { plugins: { legend: { display: false } } },
         data: {
           datasets: data.map((dataset, i) => ({
-            label: `Dataset ${i + 1}`,
+            borderColor: randomColour(0.4),
             data: dataset,
           })),
           labels: data[0].map((el, i) => i),
@@ -24,7 +26,7 @@ const Chart = (props: { data: number[][] }) => {
     }
 
     return () => chart && chart.destroy()
-  }, [data])
+  }, [data, chartRef])
 
   return <canvas ref={chartRef} />
 }
