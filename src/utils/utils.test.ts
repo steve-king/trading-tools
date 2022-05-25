@@ -17,10 +17,10 @@ test('shuffle() - shuffles order of array', () => {
   expect(outputSum).toBe(inputSum)
 })
 
-// Because of randomness this test has a small chance of failing
+// Because of randomness this test has a small chance of generating a false negative
 test('winLoseSequence() - returns random Win/Loss array within 5% accuracy', () => {
   const probabilityPercent = 75
-  const length = 100000 // The higher this number is, the lower the probability of a false negative failure
+  const length = 100000 // Bigger number = lower probability of a false negative
   const numWinsMin = (probabilityPercent / 100) * length * 0.95 // 5% below target
   const numWinsMax = (probabilityPercent / 100) * length * 1.05 // 5% above target
 
@@ -35,7 +35,9 @@ test('winLoseSequence() - returns random Win/Loss array within 5% accuracy', () 
 })
 
 test('randomColour() - returns a randomised, valid rgba string', () => {
+  // Regex grabbed from here: https://github.com/regexhq/rgba-regex
   const rgbaRegex = /^rgba\((\d{1,3}%?),\s*(\d{1,3}%?),\s*(\d{1,3}%?),\s*(\d*(?:\.\d+)?)\)$/
+
   const opacity = 0.5
   const maxRgb = 50
 
