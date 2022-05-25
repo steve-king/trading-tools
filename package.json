@@ -1,5 +1,5 @@
 {
-  "name": "equity-curve-simulator",
+  "name": "trading-tools",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
