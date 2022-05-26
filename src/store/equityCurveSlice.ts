@@ -7,7 +7,7 @@ export interface EquityCurveState {
   rewardRatio: number
   itemsPerSequence: number
   numSequences: number
-  sequences: []
+  sequences: TradeResult[][]
 }
 
 export enum TradeResult {
@@ -64,26 +64,27 @@ const equityCurveSlice = createSlice({
 // Actions
 export const { setParams } = equityCurveSlice.actions
 
-const calculateEquityCurve = (sequence: [], params: EquityCurveState) => {
-  const { startingBalance, riskPercent, rewardRatio } = params
-
-  return sequence.reduce((equityCurve: EquityCurveItem[], result: TradeResult, i) => {
-    const prevBalance = i > 0 ? equityCurve[i - 1].balance : startingBalance
-    const risk = (riskPercent / 100) * prevBalance
-    const pnl = result === TradeResult.Win ? rewardRatio * risk : risk * -1
-    const balance = prevBalance + pnl
-
-    return equityCurve.concat({
-      result,
-      pnl: Number(pnl.toFixed(2)),
-      balance: Number(balance.toFixed(2)),
-    })
-  }, [])
-}
-
 // Selectors
 export const selectEquityCurves = (state: { equityCurve: EquityCurveState }) => {
   const { sequences } = state.equityCurve
+
+  function calculateEquityCurve(sequence: TradeResult[], params: EquityCurveState) {
+    const { startingBalance, riskPercent, rewardRatio } = params
+
+    return sequence.reduce((equityCurve: EquityCurveItem[], result: TradeResult, i) => {
+      const prevBalance = i > 0 ? equityCurve[i - 1].balance : startingBalance
+      const risk = (riskPercent / 100) * prevBalance
+      const pnl = result === TradeResult.Win ? rewardRatio * risk : risk * -1
+      const balance = prevBalance + pnl
+
+      return equityCurve.concat({
+        result,
+        pnl: Number(pnl.toFixed(2)),
+        balance: Number(balance.toFixed(2)),
+      })
+    }, [])
+  }
+
   return sequences.map((seq) => calculateEquityCurve(seq, state.equityCurve))
 }
 
@@ -105,5 +106,5 @@ export const selectStats = (state: { equityCurve: EquityCurveState }): EquityCur
   }
 }
 
-// Default reducer export
+// Reducer export
 export default equityCurveSlice.reducer
