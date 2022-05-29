@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+// Types
 export interface EquityCurveState {
   startingBalance: number
   winProbability: number
@@ -93,16 +94,16 @@ export const selectChartData = (state: { equityCurve: EquityCurveState }) => {
 }
 
 export const selectStats = (state: { equityCurve: EquityCurveState }): EquityCurveStats => {
-  const multiFormatStatItem = { rMultiples: 8.5, dollars: 542, percent: 54 }
+  const placeholderValues = { rMultiples: 8.5, dollars: 542, percent: 54 }
 
   return {
     maxConsecutiveLosses: 5,
     maxConsecutiveWins: 10,
-    avgExpectancy: multiFormatStatItem,
-    maxDrawdown: multiFormatStatItem,
-    avgReturn: multiFormatStatItem,
-    maxReturn: multiFormatStatItem,
-    minReturn: multiFormatStatItem,
+    avgExpectancy: placeholderValues,
+    maxDrawdown: placeholderValues,
+    avgReturn: placeholderValues,
+    maxReturn: placeholderValues,
+    minReturn: placeholderValues,
   }
 }
 
