@@ -63,14 +63,14 @@ test('selectEquityCurves()', () => {
 test('selectChartData', () => {
   // Arrange
   const expectedChart1 = [
-    expectedCurve1[0].balance,
-    expectedCurve1[1].balance,
-    expectedCurve1[2].balance,
+    expectedCurve1[0].balance.dollars,
+    expectedCurve1[1].balance.dollars,
+    expectedCurve1[2].balance.dollars,
   ]
   const expectedChart2 = [
-    expectedCurve2[0].balance,
-    expectedCurve2[1].balance,
-    expectedCurve2[2].balance,
+    expectedCurve2[0].balance.dollars,
+    expectedCurve2[1].balance.dollars,
+    expectedCurve2[2].balance.dollars,
   ]
 
   // Act

@@ -7,6 +7,8 @@ import {
   EquityCurveStats,
 } from './equityCurveTypes'
 
+import { maxConsecutiveMatches } from '../utils/utils'
+
 // Reducer
 const equityCurveSlice = createSlice({
   name: 'equityCurve',
@@ -78,14 +80,21 @@ export const selectChartData = (state: { equityCurve: EquityCurveState }) => {
 export const selectStats = (state: { equityCurve: EquityCurveState }): EquityCurveStats => {
   const placeholderValues: MultiFormatStatItem = { rMultiples: 8.5, dollars: 542, percent: 54 }
 
+  const curves = selectEquityCurves(state)
+
   return {
-    maxConsecutiveLosses: 5,
-    maxConsecutiveWins: 10,
-    avgExpectancy: placeholderValues,
-    maxDrawdown: placeholderValues,
+    maxConsecutiveLosses: Math.max(
+      ...curves.map((dataset) => maxConsecutiveMatches('result', TradeResult.Loss, dataset))
+    ),
+    maxConsecutiveWins: Math.max(
+      ...curves.map((dataset) => maxConsecutiveMatches('result', TradeResult.Win, dataset))
+    ),
     avgReturn: placeholderValues,
     maxReturn: placeholderValues,
     minReturn: placeholderValues,
+    avgExpectancy: placeholderValues,
+
+    maxDrawdown: placeholderValues, // tricky
   }
 }
 

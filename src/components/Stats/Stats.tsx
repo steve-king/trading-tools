@@ -11,7 +11,15 @@ import {
 } from '@mui/material'
 
 const Stats = () => {
-  const stats = useSelector(selectStats)
+  const {
+    maxConsecutiveWins,
+    maxConsecutiveLosses,
+    avgExpectancy,
+    maxDrawdown,
+    avgReturn,
+    maxReturn,
+    minReturn,
+  } = useSelector(selectStats)
   return (
     <>
       <TableContainer component={Paper}>
@@ -19,9 +27,9 @@ const Stats = () => {
           <TableBody>
             <TableRow>
               <TableCell>Max Consecutive Losses:</TableCell>
-              <TableCell>{stats.maxConsecutiveWins}</TableCell>
+              <TableCell>{maxConsecutiveLosses}</TableCell>
               <TableCell>Max Consecutive Wins:</TableCell>
-              <TableCell>{stats.maxConsecutiveLosses}</TableCell>
+              <TableCell>{maxConsecutiveWins}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -40,37 +48,37 @@ const Stats = () => {
           <TableBody>
             <TableRow>
               <TableCell>Avg Expectancy</TableCell>
-              <TableCell align="right">{stats.avgExpectancy.rMultiples}</TableCell>
-              <TableCell align="right">{stats.avgExpectancy.dollars}</TableCell>
-              <TableCell align="right">{stats.avgExpectancy.percent}</TableCell>
+              <TableCell align="right">{avgExpectancy.rMultiples}</TableCell>
+              <TableCell align="right">{avgExpectancy.dollars.toFixed(2)}</TableCell>
+              <TableCell align="right">{avgExpectancy.percent}</TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell>Max Drawdown</TableCell>
-              <TableCell align="right">{stats.maxDrawdown.rMultiples}</TableCell>
-              <TableCell align="right">{stats.maxDrawdown.dollars}</TableCell>
-              <TableCell align="right">{stats.maxDrawdown.percent}</TableCell>
+              <TableCell align="right">{maxDrawdown.rMultiples}</TableCell>
+              <TableCell align="right">{maxDrawdown.dollars}</TableCell>
+              <TableCell align="right">{maxDrawdown.percent}</TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell>Avg Return</TableCell>
-              <TableCell align="right">{stats.avgReturn.rMultiples}</TableCell>
-              <TableCell align="right">{stats.avgReturn.dollars}</TableCell>
-              <TableCell align="right">{stats.avgReturn.percent}</TableCell>
+              <TableCell align="right">{avgReturn.rMultiples}</TableCell>
+              <TableCell align="right">{avgReturn.dollars}</TableCell>
+              <TableCell align="right">{avgReturn.percent}</TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell>Best Return</TableCell>
-              <TableCell align="right">{stats.maxReturn.rMultiples}</TableCell>
-              <TableCell align="right">{stats.maxReturn.dollars}</TableCell>
-              <TableCell align="right">{stats.maxReturn.percent}</TableCell>
+              <TableCell align="right">{maxReturn.rMultiples}</TableCell>
+              <TableCell align="right">{maxReturn.dollars}</TableCell>
+              <TableCell align="right">{maxReturn.percent}</TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell>Worst Return</TableCell>
-              <TableCell align="right">{stats.minReturn.rMultiples}</TableCell>
-              <TableCell align="right">{stats.minReturn.dollars}</TableCell>
-              <TableCell align="right">{stats.minReturn.percent}</TableCell>
+              <TableCell align="right">{minReturn.rMultiples}</TableCell>
+              <TableCell align="right">{minReturn.dollars}</TableCell>
+              <TableCell align="right">{minReturn.percent}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

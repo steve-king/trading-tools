@@ -54,3 +54,25 @@ export function randomColour(opacity = 1, max = 256) {
   const random = () => Math.floor(Math.random() * max)
   return `rgba(${random()}, ${random()}, ${random()}, ${opacity})`
 }
+
+/**
+ * Get the maximum number of consecutive matching key:value pairs in an array object (strict comparison)
+ * @param itemToMatch
+ * @param items
+ * @returns number
+ */
+export function maxConsecutiveMatches(keyToMatch: string, valueToMatch: any, items: any[]): number {
+  let count = 0
+  let maxCount = 0
+
+  items.forEach((item) => {
+    if (item[keyToMatch] === valueToMatch) {
+      count++
+    } else {
+      maxCount = count > maxCount ? count : maxCount
+      count = 0
+    }
+  })
+
+  return maxCount
+}

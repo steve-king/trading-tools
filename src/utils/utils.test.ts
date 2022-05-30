@@ -1,4 +1,4 @@
-import { shuffle, winLossSequence, randomColour } from './utils'
+import { shuffle, winLossSequence, randomColour, maxConsecutiveMatches } from './utils'
 import { TradeResult } from 'store/equityCurveTypes'
 
 test('shuffle() - shuffles order of array', () => {
@@ -49,4 +49,23 @@ test('randomColour() - returns a randomised, valid rgba string', () => {
   expect(Number(outputValues[1])).toBeLessThanOrEqual(maxRgb)
   expect(Number(outputValues[2])).toBeLessThanOrEqual(maxRgb)
   expect(Number(outputValues[3])).toBe(opacity)
+})
+
+test('maxConsecutiveMatches() - Returns most consecutive matched bymber of items', () => {
+  const inputArray = [
+    { result: TradeResult.Win },
+    { result: TradeResult.Win },
+    { result: TradeResult.Loss },
+    { result: TradeResult.Win },
+    { result: TradeResult.Win },
+    { result: TradeResult.Win },
+    { result: TradeResult.Loss },
+    { result: TradeResult.Win },
+    { result: TradeResult.Win },
+  ]
+
+  const expectedResult = 3
+  const actualResult = maxConsecutiveMatches('result', TradeResult.Win, inputArray)
+
+  expect(actualResult).toBe(expectedResult)
 })
