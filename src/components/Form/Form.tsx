@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, TextField, Card, CardContent } from '@mui/material'
-import { EquityCurveState, setParams } from 'store/equityCurveSlice'
+import { setParams } from 'store/equityCurveSlice'
+import { EquityCurveState } from 'store/equityCurveTypes'
 import { winLossSequence } from 'utils/utils'
 
 const Form = () => {

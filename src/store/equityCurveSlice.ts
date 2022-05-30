@@ -1,42 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-// Types
-export interface EquityCurveState {
-  startingBalance: number
-  winProbability: number
-  riskPercent: number
-  rewardRatio: number
-  itemsPerSequence: number
-  numSequences: number
-  sequences: TradeResult[][]
-}
-
-export enum TradeResult {
-  Loss = 'LOSS',
-  Win = 'WIN',
-}
-
-export interface EquityCurveItem {
-  result: TradeResult
-  pnl: number
-  balance: number
-}
-
-export interface MultiFormatStatItem {
-  rMultiples: number
-  dollars: number
-  percent: number
-}
-
-export interface EquityCurveStats {
-  maxConsecutiveLosses: number
-  maxConsecutiveWins: number
-  avgExpectancy: MultiFormatStatItem
-  maxDrawdown: MultiFormatStatItem
-  avgReturn: MultiFormatStatItem
-  maxReturn: MultiFormatStatItem
-  minReturn: MultiFormatStatItem
-}
+import {
+  EquityCurveState,
+  TradeResult,
+  EquityCurveItem,
+  MultiFormatStatItem,
+  EquityCurveStats,
+} from './equityCurveTypes'
 
 // Reducer
 const equityCurveSlice = createSlice({
@@ -69,32 +38,45 @@ export const { setParams } = equityCurveSlice.actions
 export const selectEquityCurves = (state: { equityCurve: EquityCurveState }) => {
   const { sequences } = state.equityCurve
 
+  return sequences.map((seq) => calculateEquityCurve(seq, state.equityCurve))
+
   function calculateEquityCurve(sequence: TradeResult[], params: EquityCurveState) {
     const { startingBalance, riskPercent, rewardRatio } = params
 
     return sequence.reduce((equityCurve: EquityCurveItem[], result: TradeResult, i) => {
-      const prevBalance = i > 0 ? equityCurve[i - 1].balance : startingBalance
+      const prevBalance = i > 0 ? equityCurve[i - 1].balance.dollars : startingBalance
+      const prevBalanceR = i > 0 ? equityCurve[i - 1].balance.rMultiples : 0
+
       const risk = (riskPercent / 100) * prevBalance
       const pnl = result === TradeResult.Win ? rewardRatio * risk : risk * -1
-      const balance = prevBalance + pnl
+      const pnlR = result === TradeResult.Win ? rewardRatio : -1
+      const balanceDollars = prevBalance + pnl
 
       return equityCurve.concat({
         result,
-        pnl: Number(pnl.toFixed(2)),
-        balance: Number(balance.toFixed(2)),
+        pnl: {
+          dollars: Number(pnl.toFixed(2)),
+          percent: Number(((pnl / prevBalance) * 100).toFixed(2)),
+          rMultiples: pnlR,
+        },
+        balance: {
+          dollars: Number(balanceDollars.toFixed(2)),
+          percent: Number(
+            (((balanceDollars - startingBalance) / startingBalance) * 100).toFixed(2)
+          ),
+          rMultiples: prevBalanceR + pnlR,
+        },
       })
     }, [])
   }
-
-  return sequences.map((seq) => calculateEquityCurve(seq, state.equityCurve))
 }
 
 export const selectChartData = (state: { equityCurve: EquityCurveState }) => {
-  return selectEquityCurves(state).map((series) => series.map((item) => item.balance))
+  return selectEquityCurves(state).map((series) => series.map((item) => item.balance.dollars))
 }
 
 export const selectStats = (state: { equityCurve: EquityCurveState }): EquityCurveStats => {
-  const placeholderValues = { rMultiples: 8.5, dollars: 542, percent: 54 }
+  const placeholderValues: MultiFormatStatItem = { rMultiples: 8.5, dollars: 542, percent: 54 }
 
   return {
     maxConsecutiveLosses: 5,

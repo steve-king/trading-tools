@@ -1,5 +1,5 @@
 import { shuffle, winLossSequence, randomColour } from './utils'
-import { TradeResult } from 'store/equityCurveSlice'
+import { TradeResult } from 'store/equityCurveTypes'
 
 test('shuffle() - shuffles order of array', () => {
   // arange

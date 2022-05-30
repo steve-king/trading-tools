@@ -1,4 +1,4 @@
-import { TradeResult } from 'store/equityCurveSlice'
+import { TradeResult } from 'store/equityCurveTypes'
 
 /**
  * Randomise the order of elements in an array

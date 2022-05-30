@@ -1,10 +1,5 @@
-import {
-  selectEquityCurves,
-  selectChartData,
-  EquityCurveState,
-  TradeResult,
-  EquityCurveItem,
-} from './equityCurveSlice'
+import { selectEquityCurves, selectChartData } from './equityCurveSlice'
+import { EquityCurveState, TradeResult, EquityCurveItem } from './equityCurveTypes'
 
 // Arrange
 const sequence1 = [TradeResult.Win, TradeResult.Loss, TradeResult.Win]
@@ -23,36 +18,36 @@ const state: EquityCurveState = {
 const expectedCurve1: EquityCurveItem[] = [
   {
     result: TradeResult.Win,
-    pnl: 20,
-    balance: 1020,
+    pnl: { dollars: 20, percent: 2, rMultiples: 2 },
+    balance: { dollars: 1020, percent: 2, rMultiples: 2 },
   },
   {
     result: TradeResult.Loss,
-    pnl: -10.2,
-    balance: 1009.8,
+    pnl: { dollars: -10.2, percent: -1, rMultiples: -1 },
+    balance: { dollars: 1009.8, percent: 0.98, rMultiples: 1 },
   },
   {
     result: TradeResult.Win,
-    pnl: 20.2,
-    balance: 1030,
+    pnl: { dollars: 20.2, percent: 2, rMultiples: 2 },
+    balance: { dollars: 1030, percent: 3, rMultiples: 3 },
   },
 ]
 
 const expectedCurve2: EquityCurveItem[] = [
   {
     result: TradeResult.Loss,
-    pnl: -10,
-    balance: 990,
+    pnl: { dollars: -10, percent: -1, rMultiples: -1 },
+    balance: { dollars: 990, percent: -1, rMultiples: -1 },
   },
   {
     result: TradeResult.Win,
-    pnl: 19.8,
-    balance: 1009.8,
+    pnl: { dollars: 19.8, percent: 2, rMultiples: 2 },
+    balance: { dollars: 1009.8, percent: 0.98, rMultiples: 1 },
   },
   {
     result: TradeResult.Loss,
-    pnl: -10.1,
-    balance: 999.7,
+    pnl: { dollars: -10.1, percent: -1, rMultiples: -1 },
+    balance: { dollars: 999.7, percent: -0.03, rMultiples: 0 },
   },
 ]
 
